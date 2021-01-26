@@ -1,49 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using SocialNetwork.Dtos;
+using SocialNetwork.Repositories;
 
-namespace WebApplication.Models
+namespace SocialNetwork.Models
 {
-        public class Post
+    public class Post
     {
-        private int _id = -1;
-        public Post()
+        private const string _stringMessage = "{0} must be between {2} and {1} characters long";
+        public Post(int id)
         {
-            PostDate = DateTime.Now;
+            PostId = id;
+            CreatedDate = DateTime.Now;
         }
-
-        public int Id
+        public Post(int id, PostDto postDto, IUserRepository _userRepository)
         {
-            get { return _id; }
-            set { if (_id == -1) _id = value; }
+            PostId = id;
+            Content = postDto.Content;
+            CreatedDate = DateTime.Now;
+            UserId = postDto.UserId;
         }
         public int PostId { get; set; }
-        public string PostContent { get; set; }
+
+        [Required]
+        [StringLength(400, ErrorMessage = _stringMessage, MinimumLength = 5)]
+        public string Content { get; set; }
+        public DateTime CreatedDate { get; }
+        public DateTime LastDate { get; set; }
+
+        [Required]
         public int UserId { get; set; }
-        public User User { get; set; }
-        public DateTime PostDate { get; }
-
-        public IList<Post> GetPosts()
-        {
-            return null;
-        }
-        public Post GetPostById(int id)
-        {
-            return null;
-        }
-
-        public void CreatePost(Post post)
-        {
-
-        }
-        public void UpdatePost(Post post)
-        {
-
-        }
-        public void DeletePost(Post post)
-        {
-
-        }
+        public List<User> Likes { get; set; }
     }
 }

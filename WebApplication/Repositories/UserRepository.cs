@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApplication.Models;
+using SocialNetwork.Models;
 
-namespace WebApplication.Repository
+namespace SocialNetwork.Repositories
 {
     public class UserRepository
     {
