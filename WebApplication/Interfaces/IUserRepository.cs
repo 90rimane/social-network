@@ -9,10 +9,13 @@ namespace SocialNetwork.Repositories
 {
     public interface IUserRepository
     {
-        User AddUser(UserDto user);
-        void DeleteUser(int userId);
         User GetUser(int id);
-        bool UserNameIsUnique(string userName);
         List<User> GetAllUsers();
+        void AddUser(UserDto user);
+        void DeleteUser(int userId);
+        public bool UserNameIsUnique(string userName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

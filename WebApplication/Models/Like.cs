@@ -9,7 +9,6 @@ namespace SocialNetwork.Models
     {
         public Like()
         {
-
         }
         public Like(int userId, int postId)
         {

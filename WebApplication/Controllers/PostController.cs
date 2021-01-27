@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SocialNetwork.Dtos;
 using SocialNetwork.Models;
 using SocialNetwork.Repositories;
@@ -18,10 +14,10 @@ namespace SocialNetwork.Controllers
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
 
-        public PostController(IPostRepository DictionaryPostRepository, IUserRepository DictionaryUserRepository)
+        public PostController(IPostRepository DictionaryPostRepo, IUserRepository DictionaryUserRepo)
         {
-            _postRepository = DictionaryPostRepository;
-            _userRepository = DictionaryUserRepository;
+            _postRepository = DictionaryPostRepo;
+            _userRepository = DictionaryUserRepo;
         }
 
         [HttpGet]
@@ -57,11 +53,10 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPatch]
-        [Route("{postId:int}/likeorunlike")]
-        public ActionResult LikeOrUnlike(int postId, [FromQuery] int userId)
+        [Route("{postId:int}/likeordislike")]
+        public ActionResult LikeOrDislike(int postId, [FromQuery] int userId)
         {
-
-            _postRepository.LikeOrUnlikePost(postId, userId);
+            _postRepository.LikeOrDislikePost(postId, userId);
             return NoContent();
         }
 

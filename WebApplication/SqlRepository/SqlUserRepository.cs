@@ -19,46 +19,38 @@ namespace SocialNetwork.Repositories
                 throw new NonUniqueUserName();
             if (!UserValidation.ValidateUsername(userDto.UserName))
                 throw new InvalidCharacters();
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                var sql = "INSERT INTO User (UserName, Password, EmailAdress)" + " VALUES(@UserName, @Password, @EmailAdress)";
-                connection.Execute(sql, userDto);
-            }
+            using var connection = new SqliteConnection(_connectionString);
+            var sql = "INSERT INTO User (UserName, Password, EmailAdress)" + " VALUES(@UserName, @Password, @EmailAdress)";
+            connection.Execute(sql, userDto);
         }
 
         public void DeleteUser(int userId)
         {
             var user = GetUser(userId);
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                var sql = $"DELETE FROM User WHERE UserId = @UserId";
-                connection.Execute(sql, user);
-            }
+            using var connection = new SqliteConnection(_connectionString);
+            var sql = $"DELETE FROM User WHERE UserId = @UserId";
+            connection.Execute(sql, user);
         }
         public List<User> GetAllUsers()
         {
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                var users = connection.Query<User>("SELECT * FROM User");
-                return users.ToList();
-            }
+            using var connection = new SqliteConnection(_connectionString);
+            var users = connection.Query<User>("SELECT * FROM User");
+            return users.ToList();
         }
         public User GetUser(int id)
         {
-            using (var connection = new SqliteConnection(_connectionString))
+            using var connection = new SqliteConnection(_connectionString);
+            var users = connection.Query<User>("SELECT * FROM User");
+            users.ToList();
+            if (!users.Any(e => e.UserId == id))
+                throw new UserNotFound();
+            var user = new User();
+            foreach (var person in users)
             {
-                var users = connection.Query<User>("SELECT * FROM User");
-                users.ToList();
-                if (!users.Any(e => e.UserId == id))
-                    throw new UserNotFound();
-                var user = new User();
-                foreach (var person in users)
-                {
-                    if (person.UserId == id)
-                        user = person;
-                }
-                return user;
+                if (person.UserId == id)
+                    user = person;
             }
+            return user;
         }
 
         public bool UserNameIsUnique(string username)
@@ -72,5 +64,6 @@ namespace SocialNetwork.Repositories
             }
             return isOkay;
         }
+
     }
 }

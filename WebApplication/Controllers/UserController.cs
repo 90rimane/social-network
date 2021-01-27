@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SocialNetwork.Dtos;
 using SocialNetwork.Models;
 using SocialNetwork.Repositories;
@@ -17,14 +13,10 @@ namespace SocialNetwork.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPostRepository _todoRepository;
-
-        public UserController(IPostRepository todoRepository, IUserRepository userRepository)
+        public UserController(IUserRepository userRepository)
         {
-            _todoRepository = todoRepository;
             _userRepository = userRepository;
         }
-
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()
         {
@@ -58,7 +50,6 @@ namespace SocialNetwork.Controllers
                 return BadRequest(e.Message);
             }
         }
-
         [HttpDelete]
         [Route("{id:int}")]
         public ActionResult RemoveUser(int id)

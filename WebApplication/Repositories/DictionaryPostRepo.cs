@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json;
-using SocialNetwork.Repositories;
 using SocialNetwork.Models;
 using SocialNetwork.Dtos;
 
@@ -12,7 +11,7 @@ namespace SocialNetwork.Repositories
 {
     public class DictionaryPostRepo : IPostRepository
     {
-        private readonly IUserRepository _userRepository = new DictionaryUserRepo();
+        private readonly IUserRepository _userRepository ;
         private readonly Dictionary<int, Post> _posts = new Dictionary<int, Post>();
         public DictionaryPostRepo(IUserRepository dictionaryUserRepo)
         {
@@ -58,7 +57,18 @@ namespace SocialNetwork.Repositories
             var post = new Post(id, postDto);
             _posts.Add(id, post);
         }
-        public Post LikeOrUnlikePost(int postId, int userId)
+        public Post UpdateContent(int postId, PostDto postDto)
+        {
+            if (!CorrectUser(postId, postDto.UserId))
+            {
+                throw new NotCorrectUser();
+            }
+            var post = GetPostById(postId);
+            post.Content = postDto.Content;
+            post.LastDate = DateTime.Now;
+            return post;
+        }
+        public Post LikeOrDislikePost(int postId, int userId)
         {
             Post post = GetPostById(postId);
             User user = _userRepository.GetUser(userId);
@@ -70,17 +80,6 @@ namespace SocialNetwork.Repositories
             {
                 post.Likes.Remove(user);
             }
-            return post;
-        }
-        public Post UpdateContent(int postId, PostDto postDto)
-        {
-            if (!CorrectUser(postId, postDto.UserId))
-            {
-                throw new NotCorrectUser();
-            }
-            var post = GetPostById(postId);
-            post.Content = postDto.Content;
-            post.LastDate = DateTime.Now;
             return post;
         }
 

@@ -7,7 +7,7 @@ using SocialNetwork.Models;
 
 namespace SocialNetwork.Repositories
 {
-    public class DictionaryUserRepo /*: IUserRepository*/
+    public class DictionaryUserRepo : IUserRepository
     {
         private readonly Dictionary<int, User> _users = new Dictionary<int, User>();
 
@@ -94,11 +94,10 @@ namespace SocialNetwork.Repositories
             _users.Add(id, user);
 
         }
-
         public void DeleteUser(int userId)
         {
             _users.Remove(userId);
-        }
+        }   
     }
 }
 
