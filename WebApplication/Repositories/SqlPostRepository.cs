@@ -5,6 +5,7 @@ using SocialNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SocialNetwork.Repositories;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Repositories
@@ -69,7 +70,9 @@ namespace SocialNetwork.Repositories
                 likes.ToList();
                 posts.ToList();
                 if (!posts.Any(e => e.PostId == id))
+                {
                     throw new PostNotFound();
+                }
                 var post = new Post();
                 foreach (var tmpPost in posts)
                 {
@@ -138,7 +141,7 @@ namespace SocialNetwork.Repositories
                 var sql = $"UPDATE Post SET Content = @Content, LastDate = DATETIME('now') WHERE PostId = @PostId";
                 connection.Execute(sql, post);
             }
-            return post = GetPostById(postId);
+            return _ = GetPostById(postId);
         }
     }
 }

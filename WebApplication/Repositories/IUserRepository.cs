@@ -12,6 +12,7 @@ namespace SocialNetwork.Repositories
         User AddUser(UserDto user);
         void DeleteUser(int userId);
         User GetUser(int id);
-        bool UserNameIsUnique(User user);
+        bool UserNameIsUnique(string userName);
+        List<User> GetAllUsers();
     }
 }

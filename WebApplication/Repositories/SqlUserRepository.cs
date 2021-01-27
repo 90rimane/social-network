@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Dapper;
+using Microsoft.Data.Sqlite;
 using SocialNetwork.Dtos;
 using SocialNetwork.Models;
 using System;

@@ -26,9 +26,9 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();             //.AddNewtonsoftJson();
-            services.AddSingleton<IUserRepository, DictionaryUserRepo>();
-            services.AddSingleton<IPostRepository, DictionaryPostRepo>();
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddSingleton<IUserRepository, SqlUserRepository>();
+            services.AddSingleton<IPostRepository, SqlPostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

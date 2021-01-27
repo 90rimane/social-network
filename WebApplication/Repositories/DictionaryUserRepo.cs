@@ -7,7 +7,7 @@ using SocialNetwork.Models;
 
 namespace SocialNetwork.Repositories
 {
-    public class DictionaryUserRepo : IUserRepository
+    public class DictionaryUserRepo /*: IUserRepository*/
     {
         private readonly Dictionary<int, User> _users = new Dictionary<int, User>();
 
@@ -83,7 +83,7 @@ namespace SocialNetwork.Repositories
             {
                 throw new InvalidCharacters();
             }
-            if (UserNameIsUnique(user.UserName))
+            if (UserNameIsUnique(user))
             {
                 throw new NonUniqueUserName();
             }
