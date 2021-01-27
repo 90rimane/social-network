@@ -8,7 +8,7 @@ namespace SocialNetwork.Models
 {
     public class User
     {
-        private const string _stringMessage = "{0} must be between {2} and {1} characters long";
+        private const string _stringMessage = "{0} error: Enter characters long between {1}-{2}";
         public User(int id, string username, string password, string emailadress)
         {
             UserId = id;

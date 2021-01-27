@@ -8,7 +8,7 @@ namespace SocialNetwork.Dtos
 {
     public class UserDto
     {
-        private const string _stringMessage = "{0}: characters long should be between {1}-{2}";
+        private const string _stringMessage = "{0} error: Enter characters long between {1}-{2}";
         [Required]
         [StringLength(100, ErrorMessage = _stringMessage, MinimumLength = 5)]
         public string UserName { get; set; }

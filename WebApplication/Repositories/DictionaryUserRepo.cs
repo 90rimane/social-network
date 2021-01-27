@@ -50,9 +50,13 @@ namespace SocialNetwork.Repositories
                 throw new UserNotFound();
             }
         }
-        public bool UserNameIsUnique(User user)
+        public List<User> GetAllUsers()
         {
-            return _users.Any(e => String.Equals(e.Value.UserName, user.UserName, StringComparison.CurrentCultureIgnoreCase));
+            throw new NotImplementedException();
+        }
+        public bool UserNameIsUnique(User userName)
+        {
+            return _users.Any(e => String.Equals(e.Value.UserName, userName.UserName, StringComparison.CurrentCultureIgnoreCase));
         }
         public int ValidateUniqueId(int id)
         {
@@ -69,7 +73,7 @@ namespace SocialNetwork.Repositories
             return id;
         }
 
-        public User AddUser(UserDto userDto)
+        public void AddUser(UserDto userDto)
         {
             var id = _users.Count + 1;
             id = ValidateUniqueId(id);
@@ -79,7 +83,7 @@ namespace SocialNetwork.Repositories
             {
                 throw new InvalidCharacters();
             }
-            if (UserNameIsUnique(user))
+            if (UserNameIsUnique(user.UserName))
             {
                 throw new NonUniqueUserName();
             }
@@ -88,7 +92,7 @@ namespace SocialNetwork.Repositories
                 throw new NonUniqueId();
             }
             _users.Add(id, user);
-            return user;
+
         }
 
         public void DeleteUser(int userId)

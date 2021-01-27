@@ -9,13 +9,14 @@ using SocialNetwork.Dtos;
 
 namespace SocialNetwork.Repositories
 {
-    public interface IPostRepository    {
-        Post AddPost(PostDto postDto);
+    public interface IPostRepository    
+    {
+        void AddPost(PostDto postDto);
         void DeletePost(int postId, int userId);
-        string GetAllPosts();
+        List<Post> GetAllPosts();
         Post GetPostById(int id);
         Post LikeOrUnlikePost(int postId, int userId);
-        Post UpdateContent(int postId, string content, int userId);
+        Post UpdateContent(int postId, PostDto postDto);
     }
 }
 

@@ -14,21 +14,21 @@ namespace SocialNetwork.Repositories
     {
         private readonly IUserRepository _userRepository = new DictionaryUserRepo();
         private readonly Dictionary<int, Post> _posts = new Dictionary<int, Post>();
-        public DictionaryPostRepo(IUserRepository dictionaryUserRepository)
+        public DictionaryPostRepo(IUserRepository dictionaryUserRepo)
         {
-            var user1 = dictionaryUserRepository.GetUser(1);
+            var user1 = dictionaryUserRepo.GetUser(1);
             var post1 = new Post(1)
             {
                 Content = "which actor do you like!",
                 UserId = user1.UserId,
             };
-            var user2 = dictionaryUserRepository.GetUser(2);
+            var user2 = dictionaryUserRepo.GetUser(2);
             var post2 = new Post(2)
             {
                 Content = "Life is Like riding a bicycle!",
                 UserId = user2.UserId,
             };
-            var user3 = dictionaryUserRepository.GetUser(3);
+            var user3 = dictionaryUserRepo.GetUser(3);
             var post3 = new Post(3)
             {
                 Content = "Book is my best friend, what about you!",
@@ -39,12 +39,12 @@ namespace SocialNetwork.Repositories
             _posts.Add(2, post2);
             _posts.Add(3, post3);
         }
-        public string GetAllPosts()
+        public List<Post> GetAllPosts()
         {
-            string posts = string.Empty;
+            var posts = new List<Post>();
             foreach (var post in _posts)
             {
-                posts += JsonConvert.SerializeObject(post.Value, Formatting.Indented);
+                posts.Add(post.Value);
             }
             return posts;
         }
@@ -52,12 +52,11 @@ namespace SocialNetwork.Repositories
         {
             return _posts[id];
         }
-        public Post AddPost(PostDto postDto)
+        public void AddPost(PostDto postDto)
         {
             var id = _posts.Count + 1;
-            var post = new Post(id, postDto, _userRepository);
+            var post = new Post(id, postDto);
             _posts.Add(id, post);
-            return post;
         }
         public Post LikeOrUnlikePost(int postId, int userId)
         {
@@ -73,14 +72,14 @@ namespace SocialNetwork.Repositories
             }
             return post;
         }
-        public Post UpdateContent(int postId, string newContent, int userId)
+        public Post UpdateContent(int postId, PostDto postDto)
         {
-            if (!CorrectUser(postId, userId))
+            if (!CorrectUser(postId, postDto.UserId))
             {
                 throw new NotCorrectUser();
             }
             var post = GetPostById(postId);
-            post.Content = newContent;
+            post.Content = postDto.Content;
             post.LastDate = DateTime.Now;
             return post;
         }

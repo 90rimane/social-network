@@ -8,7 +8,7 @@ namespace SocialNetwork.Dtos
 {
     public class PostDto
     {
-        private const string _stringMessage = "{0}: characters long should be between {1}-{2}";
+        private const string _stringMessage = "{0} error: Enter characters long between {1}-{2}";
 
         [Required]
         [StringLength(400, ErrorMessage = _stringMessage, MinimumLength = 5)]
