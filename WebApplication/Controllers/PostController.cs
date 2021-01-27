@@ -35,7 +35,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string> GetAllPosts()
+        public ActionResult<List<Post>> GetAllPosts()
         {
             var posts = _postRepository.GetAllPosts();
             if (posts is null)
@@ -52,10 +52,8 @@ namespace SocialNetwork.Controllers
             var user = _userRepository.GetUser(postDto.UserId);
             if (user is null)
                 return NotFound(user);
-            var post = _postRepository.AddPost(postDto);
-            if (post is null)
-                return NotFound(post);
-            return post;
+            _postRepository.AddPost(postDto);
+            return NoContent();
         }
 
         [HttpPatch]
@@ -63,17 +61,17 @@ namespace SocialNetwork.Controllers
         public ActionResult LikeOrUnlike(int postId, [FromQuery] int userId)
         {
 
-            Post post = _postRepository.LikeOrUnlikePost(postId, userId);
+            _postRepository.LikeOrUnlikePost(postId, userId);
             return NoContent();
         }
 
         [HttpPatch]
         [Route("{postId:int}/updatecontent")]
-        public ActionResult UpdateContent(int postId, [FromQuery] string newContent, int userId)
+        public ActionResult UpdateContent(int postId, [FromQuery] PostDto postDto)
         {
-            var post = _postRepository.UpdateContent(postId, newContent, userId);
+            var post = _postRepository.UpdateContent(postId, postDto);
             if (post is null)
-                return NotFound($"No post with {postId} found");
+                return NotFound($"No post found.Id: {postId}");
 
             return NoContent();
         }
@@ -84,7 +82,7 @@ namespace SocialNetwork.Controllers
         {
             var post = _postRepository.GetPostById(postId);
             if (post is null)
-                return NotFound($"No post with {postId} found");
+                return NotFound($"No postfound. Id: {postId}");
 
             _postRepository.DeletePost(postId, userId);
             return NoContent();
